@@ -1,0 +1,119 @@
+[print]
+name = k8400-cura
+defaultQuality = UGFdGjaROx9aQouMAZfWQqs4mQsUIfod
+travelSpeedMin = 180
+travelSpeedMax = 180
+firstLayerSpeedMin = 15
+firstLayerSpeedMax = 15
+infillSpeedMin = 48
+infillSpeedMax = 60
+infillType = 0
+innerPerimeterMin = 42
+innerPerimeterMax = 48
+outerPerimeterMin = 35
+outerPerimeterMax = 48
+printSpeedMin = 42
+printSpeedMax = 48
+gcodeFlavour = 0
+retractionCombing = True
+multiVolumeOverlap = 0
+cutOffObjectBottom = 0
+shellThickness = 0.7
+infillTopBottomThickness = 0.3
+infillDensityPercent = 20
+supportType = 0
+platformAdhesion = 0
+dualExtrusion = 0
+wipeAndPrimeTower = False
+oozeShield = False
+enableRetraction = True
+retractionSpeed = 85
+retractionDistance = 6
+multiExtruderSwitchAmount = 9
+startGCode = """
+G28 ; Home extruder
+G1 Z5 F{Z_TRAVEL_SPEED}
+G1 Z0 F{Z_TRAVEL_SPEED}
+M106 S165 ; Turn on fan
+G90 ; Absolute positioning
+M82 ; Extruder in absolute mode
+; Enable heated bed
+{IF_BED}M190 S{BED}
+; Activate all used extruder
+{IF_EXT0}M104 T0 S{TEMP0}
+{IF_EXT1}M104 T1 S{TEMP1}
+G92 E0 ; Reset extruder position
+; Wait for all used extruders to reach temperature
+{IF_EXT0}M109 T0 S{TEMP0}
+{IF_EXT1}M109 T1 S{TEMP1}
+{IF_EXT0}T0
+{IF_EXT1}T1
+M83
+G1 E10 F100
+M82
+G92 E0 ; Reset extruder position
+M117 Vertex is printing
+G1 F1000 Z5
+"""
+endGCode = """
+M107 ; Turn off fan
+; Disable all extruder
+G91 ; Relative positioning
+{IF_EXT0}T0
+{IF_EXT0}G1 E-1 ; Reduce filament pressure
+M104 T0 S0
+{IF_EXT1}T1
+{IF_EXT1}G1 E-1 ; Reduce filament pressure
+M104 T1 S0
+G90 ; Absolute positioning
+G92 E0 ; Reset extruder position
+M140 S0 ; Disable heated bed
+M84 ; Turn steppers off
+T0
+T1
+T0
+"""
+preSwitchExtruderCode = 
+postSwitchExtruderCode = 
+wipeAndPrimeTowerVolume = 5
+retractionMinimumTravel = 0.1
+minimumExtrusionBeforeRetract = 0.02
+zhop = 0
+skirtLineCount = 3
+skirtDistance = 3
+skirtMinimumLength = 150
+solidInfillTop = True
+solidInfillBottom = True
+infillOverlapPercent = 15
+supportStructureType = 0
+supportOverhang = 5
+supportFillPercent = 20
+supportDistanceXY = 0.8
+supportDistanceZ = 0.1
+supportExtruder = -1
+spiralizeOuterContour = False
+brimWidth = 7
+raftExtraMargin = 5
+raftLineSpacing = 1
+raftBaseThickness = 0.3
+raftBaseWidth = 0.7
+raftInterfaceThickness = 0.2
+raftInterfaceLineWidth = 0.2
+raftAirGap = 0
+raftAirGapLayer0 = 0
+raftSurfaceLayer = 1
+fixCombineEverythingA = True
+fixCombineEverythingB = False
+fixKeepOpenFaces = False
+fixExtensiveStitching = False
+fanFullAtHeight = 0
+minimumSpeed = 10
+coolHeadLift = True
+numQuality = 1
+nozzleDiameter = 0
+[quality_0]
+name = 0.1mm
+signature = UGFdGjaROx9aQouMAZfWQqs4mQsUIfod
+layerHeight = 0.105
+firstLayerHeight = 0.2
+layer0widthPercent = 100
